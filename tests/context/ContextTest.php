@@ -74,7 +74,7 @@ class ContextTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('Hello', $Mock->getChild()->hello());
 
 		// sys service, no proxy
-		$this->assertInstanceOf('renovant\core\acl\ACL', $Context->get('sys.ACL'));
+		$this->assertInstanceOf('renovant\core\acl\AclService', $Context->get('sys.ACL'));
 		ACLTest::tearDownAfterClass();
 	}
 

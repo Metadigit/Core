@@ -1,7 +1,7 @@
 <?php
 namespace test\db\orm;
 use renovant\core\sys,
-	renovant\core\acl\ACL,
+	renovant\core\acl\AclService,
 	renovant\core\db\orm\Exception,
 	renovant\core\db\orm\Repository,
 	renovant\core\util\DateTime,
@@ -65,7 +65,7 @@ class Repository1Test extends \PHPUnit\Framework\TestCase {
 			END;
 		');
 		ACLTest::setUpBeforeClass();
-		new ACL(['ORM'], 'mysql');
+		new AclService(['ORM'], 'mysql');
 	}
 
 	static function tearDownAfterClass():void {

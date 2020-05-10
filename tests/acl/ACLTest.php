@@ -1,7 +1,7 @@
 <?php
 namespace test\acl;
 use renovant\core\sys,
-	renovant\core\acl\ACL,
+	renovant\core\acl\AclService,
 	renovant\core\http\Request;
 
 class ACLTest extends \PHPUnit\Framework\TestCase {
@@ -39,22 +39,22 @@ class ACLTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	function testConstruct() {
-		$ACL = new ACL( ['ORM', 'ROUTING', 'SERVICES'], 'mysql', [
+		$ACL = new AclService( ['ORM', 'ROUTING', 'SERVICES'], 'mysql', [
 			'acl'	=> 'sys_acl',
 			'users'	=> 'sys_users',
 			'roles'	=> 'sys_roles',
 			'u2r'	=> 'sys_users_2_roles'
 		]);
-		$this->assertInstanceOf(ACL::class, $ACL);
+		$this->assertInstanceOf(AclService::class, $ACL);
 		sys::pdo('mysql')->exec(file_get_contents(__DIR__.'/init.sql'));
 		return $ACL;
 	}
 
 	/**
 	 * @depends testConstruct
-	 * @param ACL $ACL
+	 * @param AclService $ACL
 	 */
-	function testInit(ACL $ACL) {
+	function testInit(AclService $ACL) {
 		$ACL->init();
 		$this->assertTrue(constant('SYS_ACL_ORM'));
 		$this->assertTrue(constant('SYS_ACL_ROUTING'));
@@ -63,9 +63,9 @@ class ACLTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @depends testConstruct
-	 * @param ACL $ACL
+	 * @param AclService $ACL
 	 */
-	function testOnRoute(ACL $ACL) {
+	function testOnRoute(AclService $ACL) {
 		$Req = new Request('/api/users/', 'GET', ['type'=>'all']);
 		$this->assertTrue($ACL->onRoute($Req, 1));
 
@@ -75,9 +75,9 @@ class ACLTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @depends testConstruct
-	 * @param ACL $ACL
+	 * @param AclService $ACL
 	 */
-	function testOnRouteException(ACL $ACL) {
+	function testOnRouteException(AclService $ACL) {
 		$this->expectException('renovant\core\acl\Exception');
 		$this->expectExceptionCode(100);
 		$this->expectExceptionMessage('[ACTION] "api.users.insert" DENIED');
@@ -87,17 +87,17 @@ class ACLTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @depends testConstruct
-	 * @param ACL $ACL
+	 * @param AclService $ACL
 	 */
-	function testOnObject(ACL $ACL) {
+	function testOnObject(AclService $ACL) {
 		$this->assertTrue($ACL->onObject('service.Foo', 'index', 1));
 	}
 
 	/**
 	 * @depends testConstruct
-	 * @param ACL $ACL
+	 * @param AclService $ACL
 	 */
-	function testOnObjectException(ACL $ACL) {
+	function testOnObjectException(AclService $ACL) {
 		$this->expectException('renovant\core\acl\Exception');
 		$this->expectExceptionCode(100);
 		$this->expectExceptionMessage('[ACTION] "service.Foo" DENIED');
@@ -106,18 +106,18 @@ class ACLTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @depends testConstruct
-	 * @param ACL $ACL
+	 * @param AclService $ACL
 	 */
-	function testOnOrm(ACL $ACL) {
+	function testOnOrm(AclService $ACL) {
 		$this->assertTrue($ACL->onOrm('data.UserRepository', 'FETCH', 1));
 		$this->assertTrue($ACL->onOrm('data.UserRepository', 'FETCH', 4));
 	}
 
 	/**
 	 * @depends testConstruct
-	 * @param ACL $ACL
+	 * @param AclService $ACL
 	 */
-	function testOnOrmException(ACL $ACL) {
+	function testOnOrmException(AclService $ACL) {
 		$this->expectException('renovant\core\acl\Exception');
 		$this->expectExceptionCode(200);
 		$this->expectExceptionMessage('[FILTER] "data.UserRepository" value MISSING');

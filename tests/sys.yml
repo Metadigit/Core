@@ -138,6 +138,20 @@ services:
         roles:  sys_roles
         u2r:    sys_users_2_roles
 
+  sys.AclService:
+    class: renovant\core\acl\AclService
+    constructor:
+      # available modules: ORM, ROUTING, SERVICES
+      modules: [ 'ORM', 'ROUTING', 'SERVICES' ]
+
+  sys.AclProvider:
+    class: renovant\core\acl\provider\PdoProvider
+    constructor:
+      pdo:        mysql
+      tables:
+        acl:      sys_acl
+        users:    users
+
   # -------------------------------------------------------
   # AUTH service
   # -------------------------------------------------------

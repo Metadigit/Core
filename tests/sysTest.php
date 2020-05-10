@@ -3,7 +3,7 @@ namespace test;
 use renovant\core\sys,
 	renovant\core\SysBoot,
 	renovant\core\SysException,
-	renovant\core\acl\ACL,
+	renovant\core\acl\AclService,
 	renovant\core\auth\AUTH,
 	renovant\core\console\CmdManager,
 	renovant\core\context\ContextException,
@@ -136,8 +136,8 @@ class sysTest extends \PHPUnit\Framework\TestCase {
 	 */
 	function testAcl() {
 		$ACL = sys::acl();
-		$this->assertInstanceOf(ACL::class, $ACL);
-		$RefProp = new \ReflectionProperty('renovant\core\acl\ACL', 'pdo');
+		$this->assertInstanceOf(AclService::class, $ACL);
+		$RefProp = new \ReflectionProperty('renovant\core\acl\AclService', 'pdo');
 		$RefProp->setAccessible(true);
 		$pdo = $RefProp->getValue($ACL);
 		$this->assertEquals('mysql', $pdo);

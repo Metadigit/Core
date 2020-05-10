@@ -1,7 +1,7 @@
 <?php
 namespace test\db\orm;
 use renovant\core\sys,
-	renovant\core\acl\ACL,
+	renovant\core\acl\AclService,
 	renovant\core\context\Context,
 	renovant\core\db\orm\Repository,
 	test\acl\ACLTest;
@@ -21,7 +21,7 @@ class Repository2Test extends \PHPUnit\Framework\TestCase {
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 		');
 		ACLTest::setUpBeforeClass();
-		new ACL(['ORM'], 'mysql');
+		new AclService(['ORM'], 'mysql');
 	}
 
 	static function tearDownAfterClass():void {

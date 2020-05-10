@@ -9,7 +9,7 @@ namespace renovant\core;
 use renovant\core\cache\ArrayCache;
 use const renovant\core\cache\OBJ_ID_PREFIX;
 use const renovant\core\trace\{T_AUTOLOAD, T_DB, T_INFO};
-use renovant\core\acl\ACL,
+use renovant\core\acl\AclService,
 	renovant\core\auth\AUTH,
 	renovant\core\auth\AuthException,
 	renovant\core\console\CmdManager,
@@ -293,14 +293,14 @@ class sys {
 
 	/**
 	 * ACL helper
-	 * @return ACL
+	 * @return AclService
 	 * @throws ContextException
 	 * @throws EventDispatcherException|\ReflectionException
 	 */
 	static function acl() {
-		/** @var ACL $ACL */
+		/** @var AclService $ACL */
 		static $ACL;
-		if(!$ACL) $ACL = self::$Context->get(self::$Sys->cnfServices['acl'], ACL::class);
+		if(!$ACL) $ACL = self::$Context->get(self::$Sys->cnfServices['acl'], AclService::class);
 		return $ACL;
 	}
 

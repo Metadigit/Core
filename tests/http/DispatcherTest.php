@@ -2,7 +2,7 @@
 namespace test\http;
 use const renovant\core\http\ENGINE_PHP;
 use renovant\core\sys,
-	renovant\core\acl\ACL,
+	renovant\core\acl\AclService,
 	renovant\core\http\Request,
 	renovant\core\http\Response,
 	renovant\core\http\Dispatcher,
@@ -13,7 +13,7 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase {
 
 	static function setUpBeforeClass():void {
 		ACLTest::setUpBeforeClass();
-		new ACL(['ORM'], 'mysql');
+		new AclService(['ORM'], 'mysql');
 	}
 
 	static function tearDownAfterClass():void {
